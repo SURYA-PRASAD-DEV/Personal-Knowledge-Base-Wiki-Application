@@ -1,0 +1,22 @@
+{% extends 'base.html' %}
+{% block title %}{{ article.title }} - PKB{% endblock %}
+{% block content %}
+<div class="card shadow-sm">
+  <div class="card-body">
+    <h2 class="card-title">{{ article.title }}</h2>
+    <div class="mb-3">
+      {% for tag in article.tags %}
+        <a class="badge bg-primary text-decoration-none me-1" href="/?tag={{ tag }}">{{ tag }}</a>
+      {% endfor %}
+    </div>
+    <div class="article-content">{{ rendered_content | safe }}</div>
+    <div class="mt-4">
+      <a class="btn btn-outline-primary me-2" href="/articles/edit/{{ article.id }}">Edit</a>
+      <form method="post" action="/articles/delete/{{ article.id }}" onsubmit="return confirm('Delete this article?');" style="display:inline">
+        <button type="submit" class="btn btn-danger">Delete</button>
+      </form>
+      <a class="btn btn-outline-secondary ms-2" href="/articles/{{ article.id }}/versions">Versions</a>
+    </div>
+  </div>
+</div>
+{% endblock %}

@@ -1,0 +1,142 @@
+{% extends 'base.html' %}
+{% block title %}Compare Versions - {{ article.title }}{% endblock %}
+{% block content %}
+<div class="container-fluid mt-4">
+  <div class="row mb-4">
+    <div class="col-md-10">
+      <h2>Compare Versions</h2>
+      <p class="text-muted">{{ article.title }}</p>
+    </div>
+    <div class="col-md-2 text-end">
+      <a href="{{ url_for('versions', article_id=article.id) }}" class="btn btn-secondary btn-sm">Back</a>
+    </div>
+  </div>
+
+  <!-- Version Selection -->
+  <div class="row mb-4">
+    <div class="col-md-6">
+      <div class="card">
+        <div class="card-header bg-danger text-white">
+          <h6 class="mb-0">From Version {{ v1.version_no }}</h6>
+        </div>
+        <div class="card-body">
+          <p class="text-muted small mb-2">
+            <i class="bi bi-clock"></i> {{ v1.edited_at }}
+            {% if v1.edited_by %}
+              <br><i class="bi bi-person"></i> {{ v1.edited_by }}
+            {% endif %}
+          </p>
+          <form method="get" action="{{ url_for('compare_versions', article_id=article.id) }}" class="d-inline">
+            <input type="hidden" name="v2" value="{{ v2.id }}">
+            <select name="v1" class="form-select form-select-sm" onchange="this.form.submit();">
+              <option selected>Select version to compare from...</option>
+              {% for v in all_versions %}
+                <option value="{{ v.id }}" {% if v.id == v1.id %}selected{% endif %}>
+                  v{{ v.version_no }} ({{ v.edited_at }})
+                </option>
+              {% endfor %}
+            </select>
+          </form>
+        </div>
+      </div>
+    </div>
+    <div class="col-md-6">
+      <div class="card">
+        <div class="card-header bg-success text-white">
+          <h6 class="mb-0">To Version {{ v2.version_no }}</h6>
+        </div>
+        <div class="card-body">
+          <p class="text-muted small mb-2">
+            <i class="bi bi-clock"></i> {{ v2.edited_at }}
+            {% if v2.edited_by %}
+              <br><i class="bi bi-person"></i> {{ v2.edited_by }}
+            {% endif %}
+          </p>
+          <form method="get" action="{{ url_for('compare_versions', article_id=article.id) }}" class="d-inline">
+            <input type="hidden" name="v1" value="{{ v1.id }}">
+            <select name="v2" class="form-select form-select-sm" onchange="this.form.submit();">
+              <option selected>Select version to compare to...</option>
+              {% for v in all_versions %}
+                <option value="{{ v.id }}" {% if v.id == v2.id %}selected{% endif %}>
+                  v{{ v.version_no }} ({{ v.edited_at }})
+                </option>
+              {% endfor %}
+            </select>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Diff View -->
+  <div class="card">
+    <div class="card-header">
+      <h6 class="mb-0">Changes</h6>
+    </div>
+    <div class="card-body">
+      <div class="diff-container p-3 bg-light rounded" style="font-family: 'Courier New', monospace; font-size: 0.9rem; max-height: 500px; overflow-y: auto;">
+        {{ diff_html|safe }}
+      </div>
+    </div>
+  </div>
+
+  <!-- Action Buttons -->
+  <div class="mt-4 d-flex gap-2">
+    <form method="post" action="{{ url_for('restore_version', article_id=article.id, version_id=v1.id) }}" style="display: inline;" onsubmit="return confirm('Restore version {{ v1.version_no }}?');">
+      <button type="submit" class="btn btn-warning">
+        <i class="bi bi-arrow-counterclockwise"></i> Restore Version {{ v1.version_no }}
+      </button>
+    </form>
+    <form method="post" action="{{ url_for('restore_version', article_id=article.id, version_id=v2.id) }}" style="display: inline;" onsubmit="return confirm('Restore version {{ v2.version_no }}?');">
+      <button type="submit" class="btn btn-warning">
+        <i class="bi bi-arrow-counterclockwise"></i> Restore Version {{ v2.version_no }}
+      </button>
+    </form>
+  </div>
+</div>
+
+<style>
+.diff-container {
+  line-height: 1.6;
+}
+
+.diff-removed {
+  background-color: #ffcccc;
+  color: #cc0000;
+  padding: 2px 4px;
+  display: block;
+  margin: 1px 0;
+}
+
+.diff-removed .diff-marker {
+  font-weight: bold;
+  margin-right: 5px;
+}
+
+.diff-added {
+  background-color: #ccffcc;
+  color: #009900;
+  padding: 2px 4px;
+  display: block;
+  margin: 1px 0;
+}
+
+.diff-added .diff-marker {
+  font-weight: bold;
+  margin-right: 5px;
+}
+
+.diff-unchanged {
+  padding: 2px 4px;
+  display: block;
+  margin: 1px 0;
+  color: #666;
+}
+
+.diff-marker {
+  display: inline-block;
+  width: 20px;
+  text-align: center;
+}
+</style>
+{% endblock %}

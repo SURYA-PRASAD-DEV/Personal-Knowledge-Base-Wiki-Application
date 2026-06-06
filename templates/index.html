@@ -1,0 +1,58 @@
+{% extends 'base.html' %}
+{% block title %}Dashboard - PKB{% endblock %}
+{% block content %}
+<div class="d-flex flex-column flex-md-row mb-3 align-items-start align-items-md-center justify-content-between gap-3">
+  <h2 class="m-0 flex-shrink-0">Articles</h2>
+  <form class="d-flex" method="get" action="/" style="width:100%;max-width:500px">
+    <div class="input-group">
+      <input name="q" class="form-control" placeholder="Search title, content, tags" value="{{ q }}">
+      <button class="btn btn-outline-secondary" type="submit">Search</button>
+    </div>
+  </form>
+</div>
+
+<!-- Tag Cloud -->
+{% if tag_cloud %}
+  <div class="card mb-3">
+    <div class="card-body">
+      <h6 class="card-title mb-3">Tag Cloud</h6>
+      <div class="tag-cloud">
+        {% for item in tag_cloud %}
+          <a href="/?tag={{ item.tag }}" 
+             class="tag-badge tag-{{ item.size_class }}"
+             style="background-color: {{ item.color }}"
+             title="{{ item.tag }} ({{ item.count }} article{{ 's' if item.count != 1 else '' }})">
+            {{ item.tag }}
+            <span class="tag-count">{{ item.count }}</span>
+          </a>
+        {% endfor %}
+      </div>
+    </div>
+  </div>
+{% endif %}
+
+{% if articles %}
+  <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 row-cols-lg-4 g-4">
+    {% for a in articles %}
+      <div class="col">
+        <div class="card h-100 shadow-sm article-card">
+          <div class="card-body d-flex flex-column">
+            <h5 class="card-title"><a href="/articles/view?article_id={{ a.id }}" class="stretched-link text-decoration-none">{{ a.title }}</a></h5>
+            <p class="card-text text-muted small mb-2">{{ (a.content or '')[:150] }}{% if a.content and a.content|length > 150 %}...{% endif %}</p>
+            <div class="mt-auto">
+              {% for tag in a.tags %}
+                <a class="badge bg-primary text-decoration-none me-1" href="/?tag={{ tag }}">{{ tag }}</a>
+              {% endfor %}
+            </div>
+          </div>
+        </div>
+      </div>
+    {% endfor %}
+  </div>
+{% else %}
+  <div class="card">
+    <div class="card-body">No articles yet. <a href="/articles/new">Create one</a>.</div>
+  </div>
+{% endif %}
+
+{% endblock %}

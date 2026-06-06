@@ -1,0 +1,202 @@
+/* Overrides and small helpers to complement Bootstrap 5 */
+:root{--pkb-accent:#2563eb}
+*{box-sizing:border-box}
+html,body{font-family:Inter,system-ui,-apple-system,Segoe UI,Roboto,Helvetica,Arial,sans-serif;margin:0;padding:0;color:#1f2937;overflow-x:hidden;width:100%;min-height:100vh}
+.container{max-width:100%;padding-left:40px;padding-right:40px;margin:0 auto;width:100%}
+
+/* Global overflow prevention */
+img,video,iframe,embed,object{max-width:100%;height:auto}
+table{max-width:100%;overflow-x:auto;display:block}
+pre{max-width:100%;overflow-x:auto;word-wrap:break-word}
+
+/* Prevent rows from causing overflow */
+.row{max-width:100%}
+.col,.col-md-3,.col-md-4,.col-sm-2,[class*="col-"]{max-width:100%}
+
+/* Responsive container adjustments */
+@media(max-width:1600px){.container{padding-left:35px;padding-right:35px}}
+@media(max-width:1200px){.container{padding-left:30px;padding-right:30px}}
+@media(max-width:768px){
+  .container{max-width:100%;padding-left:15px;padding-right:15px}
+  main.container{padding-left:12px;padding-right:12px}
+}
+
+/* Navbar improvements */
+.navbar{padding:0.75rem 0;max-width:100%;overflow:hidden}
+.navbar .container{max-width:100%}
+.navbar-toggler{border:1px solid #dee2e6;padding:0.5rem 0.75rem}
+.navbar-toggler-icon{display:inline-block;width:1.5em;height:1.5em}
+.navbar-brand{font-size:1.75rem;font-weight:600}
+.navbar .nav-link{font-size:1.15rem;padding:0.5rem 1rem}
+
+@media(max-width:991px){
+  .navbar-collapse{padding:1rem 0}
+  .navbar-nav{width:100%}
+  .navbar-nav .nav-item{padding:0.25rem 0}
+  .navbar-brand{font-size:1rem}
+}
+
+/* Article card */
+.article-card{transition:transform .15s ease, box-shadow .15s ease;height:100%;overflow:hidden}
+.article-card:hover{transform:translateY(-4px);box-shadow:0 8px 16px rgba(15,23,42,0.12)}
+.article-card .card-title{font-size:1.6rem;word-wrap:break-word;overflow-wrap:break-word;font-weight:600;margin-bottom:0.85rem}
+.article-card .card-title a{word-break:break-word}
+.article-card .card-body{padding:1.75rem;max-width:100%}
+.article-card .card-text{word-wrap:break-word;overflow-wrap:break-word;font-size:1.15rem;line-height:1.7}
+.article-card .badge{font-size:1.05rem;padding:0.5rem 0.75rem}
+
+.article-content img{max-width:100%;height:auto}
+
+/* Better grid spacing */
+.g-4{--bs-gutter-x:1.75rem;--bs-gutter-y:1.75rem}
+
+@media(max-width:768px){
+  .article-card{margin-bottom:1rem}
+  .article-card .card-title{font-size:1.2rem}
+  .article-card .card-body{padding:1.25rem}
+  .g-4{--bs-gutter-x:1rem;--bs-gutter-y:1rem}
+}
+
+.internal-link{color:var(--pkb-accent);text-decoration:none;font-size:1.15rem}
+.internal-link:hover{text-decoration:underline}
+
+a{font-size:inherit}
+
+/* Form and search tweaks */
+.input-group .form-control{min-width:0;flex:1;font-size:1.15rem;padding:0.75rem 1rem}
+.input-group{flex-wrap:nowrap;width:100%;max-width:100%}
+.btn{white-space:nowrap;flex-shrink:0;font-size:1.15rem;padding:0.75rem 1.25rem}
+textarea.form-control{resize:vertical;min-height:350px;font-size:1.15rem;line-height:1.7}
+input.form-control,textarea.form-control,select.form-control{font-size:1.15rem;width:100%;max-width:100%}
+label.form-label{font-size:1.15rem;font-weight:500}
+
+@media(max-width:1024px){
+  .input-group .form-control{font-size:1.1rem}
+  .btn{font-size:1.1rem}
+}
+
+@media(max-width:768px){
+  .input-group .form-control{font-size:16px;min-width:0}
+  .input-group{flex-wrap:wrap}
+  .btn{font-size:16px;padding:0.6rem 0.85rem;width:100%;margin-top:0.5rem}
+  textarea.form-control{min-height:250px;font-size:16px}
+  .card{margin:0}
+  .card-body{padding:1.25rem}
+}
+
+pre.version-content{background:#f8f8f8;padding:.8rem;border-radius:6px;white-space:pre-wrap;overflow-x:auto;font-size:1.05rem}
+
+/* Version Timeline */
+.version-timeline{position:relative;padding-left:20px}
+.version-card{transition:transform .2s, box-shadow .2s}
+.version-card:hover{transform:translateX(5px);box-shadow:0 4px 12px rgba(0,0,0,0.1)}
+.version-preview{font-family:'Courier New',monospace;color:#555;font-size:1.05rem}
+time{font-weight:500;font-size:1.05rem}
+
+/* Diff View */
+.diff-container{line-height:1.7;font-size:1.05rem}
+.diff-removed{background-color:#ffcccc;color:#cc0000;padding:3px 6px;display:block;margin:2px 0;font-size:1.05rem}
+.diff-removed .diff-marker{font-weight:bold;margin-right:6px}
+.diff-added{background-color:#ccffcc;color:#009900;padding:3px 6px;display:block;margin:2px 0;font-size:1.05rem}
+.diff-added .diff-marker{font-weight:bold;margin-right:6px}
+.diff-unchanged{padding:3px 6px;display:block;margin:2px 0;color:#666;font-size:1.05rem}
+.diff-marker{display:inline-block;width:24px;text-align:center}
+
+/* Wiki Link Autocomplete */
+.wiki-suggestions{position:absolute;background:#fff;border:1px solid #ddd;border-radius:4px;box-shadow:0 2px 8px rgba(0,0,0,0.1);z-index:1000;min-width:200px;max-width:400px}
+.wiki-suggestions.hidden{display:none}
+.suggestion-item{padding:10px 14px;cursor:pointer;border-bottom:1px solid #eee;font-size:1.1rem}
+.suggestion-item:last-child{border-bottom:none}
+.suggestion-item:hover,.suggestion-item.active{background-color:#f0f0f0;color:var(--pkb-accent);font-weight:500}
+.suggestion-item strong{color:var(--pkb-accent);font-weight:bold}
+
+/* Wiki Validation Warnings */
+.wiki-validation-warnings{margin-bottom:1rem}
+.wiki-validation-warnings.hidden{display:none}
+.wiki-validation-warnings .alert{margin-bottom:0}
+.wiki-validation-warnings ul{margin-bottom:0;padding-left:1.5rem}
+.wiki-validation-warnings li{margin:4px 0}
+
+/* Tag Cloud Styling */
+.tag-cloud{display:flex;flex-wrap:wrap;gap:0.95rem;align-items:center;max-width:100%}
+.tag-badge{display:inline-flex;align-items:center;gap:0.6rem;padding:0.75rem 1.15rem;border-radius:22px;color:#fff;text-decoration:none;font-weight:500;transition:all 0.2s;box-shadow:0 2px 4px rgba(0,0,0,0.1);cursor:pointer;max-width:100%;word-break:break-word;font-size:1.15rem}
+.tag-badge:hover{transform:scale(1.08);box-shadow:0 4px 8px rgba(0,0,0,0.15);color:#fff;text-decoration:none}
+.tag-badge.tag-sm{font-size:1.05rem;padding:0.6rem 0.95rem}
+.tag-badge.tag-md{font-size:1.2rem}
+.tag-badge.tag-lg{font-size:1.35rem;padding:0.85rem 1.25rem}
+.tag-badge.tag-xl{font-size:1.5rem;padding:0.95rem 1.35rem}
+.tag-count{background:rgba(255,255,255,0.3);padding:0.3rem 0.6rem;border-radius:11px;font-size:0.85em;font-weight:600}
+.tag-count-small{font-size:0.95rem;background:rgba(255,255,255,0.25);padding:0.35rem 0.5rem;border-radius:9px;margin-left:0.3rem}
+
+/* Tag Input Component */
+.tag-input-wrapper{position:relative}
+.tag-input{padding-right:2.5rem}
+.tag-suggestions{position:absolute;top:100%;left:0;right:0;background:#fff;border:1px solid #dee2e6;border-top:none;border-radius:0 0 4px 4px;box-shadow:0 4px 6px rgba(0,0,0,0.1);z-index:1000;display:none;max-height:250px;overflow-y:auto}
+.tag-suggestions .suggestion-item{padding:12px 14px;border-bottom:1px solid #f0f0f0;cursor:pointer;display:flex;justify-content:space-between;align-items:center;transition:background-color 0.15s;font-size:1.1rem}
+.tag-suggestions .suggestion-item:hover,.tag-suggestions .suggestion-item.active{background-color:#e7f3ff;color:var(--pkb-accent);font-weight:500}
+.selected-tags{display:flex;flex-wrap:wrap;gap:0.5rem}
+.tag-selected{display:inline-flex;align-items:center;gap:0.5rem;background-color:#e7f3ff;color:var(--pkb-accent);padding:0.6rem 0.9rem;border-radius:16px;font-size:1.05rem;font-weight:500;border:1px solid rgba(37,99,235,0.2)}
+.btn-remove-tag{background:none;border:none;color:inherit;cursor:pointer;font-size:1.35rem;line-height:1;padding:0;opacity:0.7;transition:opacity 0.2s}
+.btn-remove-tag:hover{opacity:1}
+
+@media (max-width:576px) {
+  .tag-cloud{gap:0.5rem}
+  .tag-badge.tag-lg,.tag-badge.tag-xl{font-size:1.1rem;padding:0.6rem 0.85rem}
+  .tag-suggestions{max-height:200px}
+}
+.wiki-validation-warnings code{background:#fff3cd;padding:2px 6px;border-radius:3px}
+
+/* Responsive breakpoints for better mobile experience */
+h1{font-size:3rem;font-weight:600}
+h2{font-size:2.5rem;font-weight:600}
+h3{font-size:2rem}
+h5{font-size:1.5rem}
+h6{font-size:1.25rem}
+body{font-size:20px;line-height:1.7}
+p{font-size:20px}
+
+@media(max-width:768px){
+  h1{font-size:2rem}
+  h2{font-size:1.75rem}
+  .navbar-brand{font-size:1.2rem}
+  .wiki-suggestions{max-width:calc(100vw - 30px)}
+  .input-group{max-width:100%}
+  body{font-size:16px}
+}
+
+@media(max-width:576px){
+  h1{font-size:1.75rem}
+  h2{font-size:1.5rem}
+  .row{margin-left:0;margin-right:0}
+  .col,.col-md-4{padding-left:0.5rem;padding-right:0.5rem}
+  .navbar-brand{font-size:1.1rem}
+  body{font-size:15px}
+  .card-title{font-size:1.1rem}
+}
+
+/* Ensure cards never overflow */
+.card{max-width:100%;overflow:hidden;word-wrap:break-word;border-radius:8px}
+.card-body{max-width:100%;overflow:hidden;padding:1.75rem}
+.card-title{word-wrap:break-word;overflow-wrap:break-word;font-size:1.25rem}
+.card-text{word-wrap:break-word;overflow-wrap:break-word;font-size:1.1rem}
+
+/* Footer styling */
+footer{margin-top:auto;padding:1rem 0!important}
+footer .small{font-size:1.05rem!important}
+
+/* Better spacing for laptop screens */
+.mb-4{margin-bottom:1.5rem!important}
+.mb-3{margin-bottom:1.25rem!important}
+.my-4{margin-top:1.5rem!important;margin-bottom:1.5rem!important}
+.my-3{margin-top:1.25rem!important;margin-bottom:1.25rem!important}
+
+/* Make main content fill available space */
+main.container{flex:1;padding-top:1.5rem;padding-bottom:1.5rem}
+
+/* Search input improvements */
+input[name="q"]{min-width:300px}
+
+@media(max-width:768px){
+  input[name="q"]{min-width:0}
+  main.container{padding-top:1rem;padding-bottom:1rem}
+}

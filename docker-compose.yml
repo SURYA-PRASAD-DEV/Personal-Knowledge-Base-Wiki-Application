@@ -1,0 +1,18 @@
+version: "3.9"
+
+services:
+  web:
+    build: .
+    ports:
+      - "5000:5000"
+    env_file:
+      - .env
+    environment:
+      - FLASK_CONFIG=production
+    volumes:
+      # Persist data directory (articles JSON, search index) across restarts
+      - app_data:/app/data
+    restart: unless-stopped
+
+volumes:
+  app_data:

@@ -1,0 +1,51 @@
+{% extends 'base.html' %}
+{% block title %}{{ action }} Article{% endblock %}
+{% block content %}
+<div class="card">
+  <div class="card-body">
+    <h2 class="card-title">{{ action }} Article</h2>
+    <form method="post" id="articleForm">
+      <div class="mb-3">
+        <label class="form-label">Title</label>
+        <input class="form-control" name="title" value="{{ article.title or '' }}" required>
+      </div>
+      <div class="mb-3">
+        <label class="form-label">Tags (multi-select or comma-separated)</label>
+        <div class="tag-input-wrapper">
+          <input class="form-control tag-input" id="tagInput" placeholder="Type tag name or select from suggestions..." value="{{ article.tags | join(', ') if article.tags else '' }}">
+          <div id="tagSuggestions" class="tag-suggestions"></div>
+        </div>
+        <div id="selectedTags" class="mt-2 selected-tags">
+          {% for tag in article.tags or [] %}
+            <span class="tag-selected" data-tag="{{ tag }}">
+              {{ tag }} <button type="button" class="btn-remove-tag">×</button>
+            </span>
+          {% endfor %}
+        </div>
+        <input type="hidden" name="tags" id="tagsHidden" value="{{ article.tags | join(', ') if article.tags else '' }}">
+      </div>
+      <div class="mb-3">
+        <label class="form-label">Content (supports [[Internal Links]] with autocomplete)</label>
+        <textarea id="editor" class="form-control" name="content" rows="12">{{ article.content or '' }}</textarea>
+      </div>
+      <button class="btn btn-primary" type="submit">{{ action }}</button>
+    </form>
+  </div>
+</div>
+{% endblock %}
+
+{% block scripts %}
+  <!-- Wiki Link Autocomplete -->
+  <script src="{{ url_for('static', filename='js/wiki-autocomplete.js') }}"></script>
+  <!-- Tag Input Component -->
+  <script src="{{ url_for('static', filename='js/tag-input.js') }}"></script>
+  <script>
+    // Simple textarea styling - no TinyMCE required
+    const editor = document.getElementById('editor');
+    if (editor) {
+      editor.style.fontFamily = 'monospace';
+      editor.style.fontSize = '14px';
+      editor.style.lineHeight = '1.5';
+    }
+  </script>
+{% endblock %}

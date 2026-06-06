@@ -1,0 +1,93 @@
+{% extends 'base.html' %}
+{% block title %}Versions - {{ article.title }}{% endblock %}
+{% block content %}
+<div class="container-fluid mt-4">
+  <div class="row mb-4">
+    <div class="col-md-8">
+      <h2>Version History</h2>
+      <p class="text-muted">{{ article.title }}</p>
+    </div>
+    <div class="col-md-4 text-end">
+      <a href="{{ url_for('view_article', article_id=article.id) }}" class="btn btn-secondary">Back to Article</a>
+    </div>
+  </div>
+
+  {% if versions %}
+    <!-- Timeline View -->
+    <div class="version-timeline">
+      {% for v in versions %}
+        <div class="version-card card mb-3 border-start border-primary" style="border-left-width: 5px !important;">
+          <div class="card-header bg-light d-flex justify-content-between align-items-center">
+            <div>
+              <h5 class="mb-0">Version {{ v.version_no }}</h5>
+              <small class="text-muted d-block">
+                <i class="bi bi-clock"></i>
+                <time title="{{ v.edited_at }}">{{ v.edited_at }}</time>
+                {% if v.edited_by %}
+                  <span class="ms-2"><i class="bi bi-person"></i> {{ v.edited_by }}</span>
+                {% endif %}
+              </small>
+            </div>
+            <div class="badge bg-info">{{ "%Y-%m-%d %H:%M"|format_date(v.edited_at) }}</div>
+          </div>
+          <div class="card-body">
+            <div class="version-preview mb-3 p-2 bg-light rounded text-truncate" style="max-height: 100px; overflow: hidden;">
+              <small>{{ v.content[:200] }}{% if v.content|length > 200 %}...{% endif %}</small>
+            </div>
+            <div class="d-flex gap-2">
+              <form method="post" action="{{ url_for('restore_version', article_id=article.id, version_id=v.id) }}" style="display: inline;" onsubmit="return confirmRestore('{{ v.version_no }}');">
+                <button type="submit" class="btn btn-sm btn-success">
+                  <i class="bi bi-arrow-counterclockwise"></i> Restore
+                </button>
+              </form>
+              {% if not loop.last %}
+                <a href="{{ url_for('compare_versions', article_id=article.id, v1=v.id, v2=versions[loop.index0 + 1].id) }}" class="btn btn-sm btn-info">
+                  <i class="bi bi-arrow-left-right"></i> Compare
+                </a>
+              {% endif %}
+            </div>
+          </div>
+        </div>
+      {% endfor %}
+    </div>
+  {% else %}
+    <div class="card">
+      <div class="card-body text-center py-5">
+        <p class="text-muted mb-0">No version history available yet.</p>
+      </div>
+    </div>
+  {% endif %}
+</div>
+
+<!-- Confirmation Dialog -->
+<script>
+function confirmRestore(versionNo) {
+  return confirm(`Are you sure you want to restore version ${versionNo}? The current version will be saved as a new version.`);
+}
+</script>
+
+<style>
+.version-timeline {
+  position: relative;
+  padding-left: 20px;
+}
+
+.version-card {
+  transition: transform 0.2s, box-shadow 0.2s;
+}
+
+.version-card:hover {
+  transform: translateX(5px);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+}
+
+.version-preview {
+  font-family: 'Courier New', monospace;
+  color: #555;
+}
+
+time {
+  font-weight: 500;
+}
+</style>
+{% endblock %}
